@@ -8,7 +8,9 @@ const apiAddress = "https://bot-battler-api.herokuapp.com/api/v1/bots";
 class BotsPage extends React.Component {
   state = {
     bots: [],
-    myArmy: []
+    myArmy: [],
+    health: 50,
+    listener: []
   };
 
   componentDidMount() {
@@ -36,6 +38,25 @@ class BotsPage extends React.Component {
     }
   };
 
+  receiveData = (value) => {
+    this.setState({ health: value })
+  }
+
+  // This function should be triggered by the button click in BotSelector
+  addFilteredBotsToArmy = (filteredBotIds) => {
+    if (filteredBotIds.length() > 0) {
+      this.setState({ myArmy: [...this.state.myArmy, filteredBotIds] })
+    }
+  }
+  // This will set the myArmy state to a collection of filtered ids so that myBots() can find the correct objets
+  // to pass down to YourBotArmy and render in cards
+
+
+  clickListener = () => {
+    this.setState({ listener: [this.state.listener, ["hi"]] })
+  }
+
+
   myBots() {
     const {
       state: { bots, myArmy }
@@ -45,6 +66,7 @@ class BotsPage extends React.Component {
     return result;
   }
 
+
   render() {
     const {
       state: { bots, botSelectorCriteria },
@@ -53,9 +75,9 @@ class BotsPage extends React.Component {
     } = this;
     return (
       <div>
-        <BotSelector />
-        <YourBotArmy bots={this.myBots()} removeBotToArmy={removeBotToArmy} />
-        <BotCollection bots={bots} addBotToArmy={addBotToArmy} />
+        <BotSelector receiveData={this.receiveData} addFilteredBotsToArmy={this.addFilteredBotsToArmy} health={this.state.health} clickListener={this.clickListener} listener={this.state.listener}/>
+        <YourBotArmy bots={this.myBots()} removeBotToArmy={removeBotToArmy} listener={this.state.listener}/>
+        <BotCollection bots={bots} addBotToArmy={addBotToArmy} health={this.state.health} addFilteredBotsToArmy={this.addFilteredBotsToArmy} listener={this.state.listener}/>
       </div>
     );
   }
