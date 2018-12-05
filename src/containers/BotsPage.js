@@ -1,6 +1,7 @@
 import React from "react";
 import BotCollection from "./BotCollection";
 import YourBotArmy from "./YourBotArmy";
+import BotSelector from "../components/BotSelector";
 
 const apiAddress = "https://bot-battler-api.herokuapp.com/api/v1/bots";
 
@@ -52,6 +53,7 @@ class BotsPage extends React.Component {
     } = this;
     return (
       <div>
+        <BotSelector />
         <YourBotArmy bots={this.myBots()} removeBotToArmy={removeBotToArmy} />
         <BotCollection bots={bots} addBotToArmy={addBotToArmy} />
       </div>
