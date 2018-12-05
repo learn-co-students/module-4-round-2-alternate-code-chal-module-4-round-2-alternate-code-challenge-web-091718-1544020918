@@ -7,9 +7,47 @@ const apiAddress = "https://bot-battler-api.herokuapp.com/api/v1/bots";
 
 class BotsPage extends React.Component {
   state = {
+    filteredBots: [],
     bots: [],
-    myArmy: []
+    myArmy: [],
+    health: 50,
+    strong: 50,
+    damage: 50
   };
+
+  importBots = () => {
+    // on click event need to take the current state of bots that have been filtered(or not) and add them
+    // to state of myArmy, or however myArmy is being rendered in yourBotArmy component
+    // need to map over state.filterBots to return array of ids, then need to spread operate into
+    // exsisting myArmy array
+      let importBotIds = this.state.filteredBots.map(botObj => {
+        return botObj.id
+      })
+      console.log(importBotIds)
+
+      this.setState({
+        myArmy: [...this.state.myArmy, parseInt(importBotIds,10)]
+      })
+    }
+
+
+
+  handleChange = (event) => {
+    if(event.target.name = 'health') {
+      this.setState({health: event.target.value})
+    }
+    else if (event.target.name = 'armor') {
+      this.setState({armor: event.target.value})
+    }
+
+    let filterBots = this.state.bots.filter(botObj => {
+      return botObj.health >= parseInt(this.state.health, 10)
+    })
+    this.setState({
+      filteredBots: filterBots
+    }, console.log(this.state.filteredBots))
+
+  }
 
   componentDidMount() {
     fetch(apiAddress)
@@ -47,15 +85,26 @@ class BotsPage extends React.Component {
 
   render() {
     const {
-      state: { bots, botSelectorCriteria },
+      state: { botSelectorCriteria },
       addBotToArmy,
       removeBotToArmy
     } = this;
+
+    let filterBots = this.state.bots.filter(botObj => {
+      return botObj.health >= parseInt(this.state.health, 10)
+    })
+
     return (
       <div>
-        <BotSelector />
+        <BotSelector
+          handleChange={this.handleChange}
+          importBots={this.importBots}
+          health={this.state.health}
+          strong={this.state.strong}
+          damage={this.state.damage}
+        />
         <YourBotArmy bots={this.myBots()} removeBotToArmy={removeBotToArmy} />
-        <BotCollection bots={bots} addBotToArmy={addBotToArmy} />
+        <BotCollection bots={filterBots} addBotToArmy={addBotToArmy} />
       </div>
     );
   }
