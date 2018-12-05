@@ -1,6 +1,11 @@
 import React from "react";
 
 const BotSelector = props => {
+
+  const healthChanger = (e) => {
+    props.receiveData(e.target.value)
+  }
+
   return (
     <div className="ui four column grid">
       <div className="row">
@@ -9,9 +14,9 @@ const BotSelector = props => {
 
       <div className="row">
         <p>
-          health: <strong>50</strong>
+          health: <strong>{props.health}</strong>
         </p>
-        <input type="range" value="50" name="health" step="1" />
+        <input type="range" name="health" step="1" onChange={(e) => healthChanger(e)} />
       </div>
 
       <div className="row">
@@ -21,7 +26,7 @@ const BotSelector = props => {
         <input type="range" value="30" name="armor" step="1" />
       </div>
 
-      <h3>Import bots meeting this criteria</h3>
+      <button onClick={props.clickListener}>Import bots meeting this criteria</button>
     </div>
   );
 };
