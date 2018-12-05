@@ -1,7 +1,7 @@
 import React from "react";
 
 const BotCard = props => {
-  const { bot } = props;
+  const { bot, handleClick } = props;
 
   let botType;
 
@@ -20,7 +20,7 @@ const BotCard = props => {
   }
 
   return (
-    <div className="ui column">
+    <div className="ui column" onClick={() => handleClick(bot.id)}>
       <div
         className="ui card"
         key={bot.id}
@@ -56,7 +56,6 @@ const BotCard = props => {
       </div>
     </div>
   );
-
 };
 
 export default BotCard;
