@@ -9,19 +9,26 @@ const BotSelector = props => {
 
       <div className="row">
         <p>
-          health: <strong>50</strong>
+          health: <strong>{props.health}</strong>
         </p>
-        <input type="range" value="50" name="health" step="1" />
+        <input onChange={props.handleChange} type="range"  value={props.health} name="health" step="1" />
       </div>
 
       <div className="row">
         <p>
-          armor: <strong>30</strong>
+          armor: <strong>{props.strong}</strong>
         </p>
-        <input type="range" value="30" name="armor" step="1" />
+        <input  type="range" value={props.strong} name="armor" step="1" />
       </div>
 
-      <h3>Import bots meeting this criteria</h3>
+      <div className="row">
+        <p>
+          damage: <strong>{props.damage}</strong>
+        </p>
+        <input  type="range" value={props.damage} name="damage" step="1" />
+      </div>
+
+      <h3 onClick={props.importBots}>Import bots meeting this criteria</h3>
     </div>
   );
 };
